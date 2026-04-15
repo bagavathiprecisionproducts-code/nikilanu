@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Journey ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 25px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 2.3rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 15px 0;
+      white-space: pre-wrap;
+    }
+
+    img {
+      width: 220px;
+      margin-top: 15px;
+      border-radius: 20px;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    img.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 25px;
+      background: #fff;
+      color: #ff4b5c;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .hearts {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+
+    .blast-animation {
+      animation: popBlast 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      opacity: 0;
+      display: inline-block;
+    }
+
+    @keyframes popBlast {
+      0% {
+        opacity: 0;
+        transform: scale(0.1) translateY(50px);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.1) translateY(-10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <audio id="bgMusic" autoplay loop preload="auto">
+    <source src="./love.mp3.mp3" type="audio/mp3">
+  </audio>
+
+  <div class="hearts" id="hearts"></div>
+
+  <div class="container">
+    <div id="content">
+      <h1 id="title">Hey My Love ❤️</h1>
+      <p id="quote">Click below... I have something special for you 💌</p>
+      <img id="image" src="https://media1.tenor.com/m/2xXSveH84lIAAAAC/wake-up.gif">
+    </div>
+    <br>
+    <div id="btnContainer">
+      <button id="backBtn" onclick="prevPage()" style="display: none; margin-right: 10px;">Back 💖</button>
+      <button id="mainBtn" onclick="startMusic(); nextPage()">Click Me 💖</button>
+    </div>
+  </div>
+
+  <script>
+
+    const pages = [
+      {
+        title: "Happy Birthday Chelloooo ❤️",
+        quote: "Today is special because you were born 💕 You can try to find a thousand definitions for LOVE❤️ in the dictionary. Nothing comes close to how I feel about you💋",
+        img: "https://media1.tenor.com/m/2xXSveH84lIAAAAC/wake-up.gif"
+      },
+      {
+        title: "My World 🌍",
+        quote: "You are my today and all of my tomorrows 💖You are the most beautiful chapter in the book of my life🫀. You means a lot to me🫂",
+        img: "https://media.tenor.com/RG_lIajbbtQAAAAj/milk-and-mocha.gif"
+      },
+      {
+        title: "My Happiness 😊",
+        quote: "Your smile is my favorite thing ✨ You bring more happiness into my life🫀 than I ever thought I deserved💋",
+        img: "https://media.tenor.com/2KrmhQzy6mIAAAAj/cute-bear-silvia-emoji.gif"
+      },
+      {
+        title: "My Heart 💓",
+        quote: "Every heartbeat whispers your name 💕 With all my heart, with every inch of my soul💓, with every breath I take, I am falling for you😚",
+        img: "https://media.tenor.com/mfC-cc_TL_sAAAAM/thank-you.gif"
+      },
+      {
+        title: "Forever ♾️",
+        quote: "I want to grow old with you 🥺❤️I'll not only be in your happiness, I'll always stands by your side even in your downtimes..🤌❤️✨",
+        img: "https://media.tenor.com/xJ3kxccM3SsAAAAj/bear.gif"
+      },
+      {
+        title: "My Promise 💍",
+        quote: "I will always be there for you 💞 I promise there hasn't been a day that I stopped loving you💋 and you haven't gotten out of my head at all since I first met you🫂",
+        img: "https://i.pinimg.com/originals/17/37/9a/17379a1e4776610710e0dab4ebc8921a.gif"
+      },
+      {
+        title: "Mamaaaa❤️💋",
+        quote: "Na epayum unkudave irupen maa... Love you as always🫂🫂 , Love you lotzzz chelloooo❤️.... Ummmmmmmmaaaaahhhhhhh💋💋💋💋",
+        img: "https://media.tenor.com/FKvP1_--i7kAAAAM/so-cute.gif"
+      },
+      {
+        title: "Final Surprise 🎁",
+        quote: "Propose Epdi panuna nu kuda marandhutalla😑 Ne rombaa kenjiii, konjiii ketadhala solren😏 Na unaya love pana solli force panamaten maa🫂, ana en life la unaya vita vera ponnu kedayadhu💞... Ne yes sonna unaya marriage panipen💍 ennala mudinja alavu unaya epayum happyy ah vachupen maaaa❤️🥹",
+        img: "https://media.tenor.com/HhoIuxM1A2sAAAAM/love.gif"
+      },
+      { proposal: true },
+      { card: true, img: "https://media.tenor.com/kKQxAIakqIkAAAAM/lpg.gif" }
+    ];
+
+    let index = 0;
+    let lastProposalIndex = 0;
+
+    function typeEffect(el, text) {
+      el.innerHTML = "";
+      let i = 0;
+      let interval = setInterval(() => {
+        if (i < text.length) {
+          el.innerHTML += text.charAt(i++);
+        } else clearInterval(interval);
+      }, 30);
+    }
+
+    function showImage(img) {
+      img.classList.remove("show");
+      setTimeout(() => img.classList.add("show"), 100);
+    }
+
+    function nextPage() {
+      if (index >= pages.length) return;
+
+      const backBtn = document.getElementById("backBtn");
+
+      if (pages[index].proposal) {
+        document.getElementById("btnContainer").style.display = "none";
+        content.innerHTML = `
+          <h1>Will You Stay Forever? 💍</h1>
+          <button onclick="showLove(true)">YES ❤️</button>
+          <button onclick="showLove(false)">NO 😜</button>
+          <br><br>
+          <button onclick="prevPage()">Back 💖</button>
+        `;
+      }
+      else if (pages[index].card) {
+        document.getElementById("btnContainer").style.display = "none";
+        content.innerHTML = `
+          <div class="card">
+            <h1>Happy Birthday Mamseyyy ❤️</h1>
+            <img id="finalImg">
+            <p id="finalText"></p>
+            <button onclick="restartStory()">Restart Love Story 💖</button>
+          </div>
+        `;
+        let img = document.getElementById("finalImg");
+        img.src = pages[index].img;
+        showImage(img);
+
+        typeEffect(document.getElementById("finalText"),
+          "Deii mama, Once again happiest birthday daa 💕 I'm Forever yours 💖...Na epayum un kudave irupen da chelloo😘😘 I Love you so so soooo much maaa en azhagupulla🫂❤️🥹🥹 Ne epayum happiee ah irukanum chelloo🤌😚❤️ I will always there to irritate you at any cost😏😜❤️ I want to complete my entire life just by holding your hands🦒❤️🫂......... \n\n~With Love❤️: Mrs.Nikilesh Karthic💋🫂"
+        );
+      }
+      else {
+        document.getElementById("btnContainer").style.display = "block";
+        document.getElementById("mainBtn").style.display = "inline-block";
+        if (backBtn) backBtn.style.display = "inline-block";
+        document.getElementById("mainBtn").innerText = "Next 💖";
+
+        content.innerHTML = `
+          <h1 id="title"></h1>
+          <p id="quote"></p>
+          <img id="image">
+        `;
+        document.getElementById("title").innerText = pages[index].title;
+        typeEffect(document.getElementById("quote"), pages[index].quote);
+
+        let img = document.getElementById("image");
+        img.src = pages[index].img;
+        showImage(img);
+      }
+
+      index++;
+    }
+
+    function prevPage() {
+      if (index <= 1) {
+        index = 0;
+        document.getElementById("btnContainer").style.display = "block";
+        document.getElementById("backBtn").style.display = "none";
+        document.getElementById("mainBtn").style.display = "inline-block";
+        document.getElementById("mainBtn").innerText = "Click Me 💖";
+        content.innerHTML = `
+          <h1 id="title">Hey My Love ❤️</h1>
+          <p id="quote">Click below... I have something special for you 💌</p>
+          <img id="image" src="https://media1.tenor.com/m/2xXSveH84lIAAAAC/wake-up.gif">
+        `;
+        showImage(document.getElementById("image"));
+        return;
+      }
+      index -= 2;
+      document.getElementById("btnContainer").style.display = "block";
+      nextPage();
+    }
+
+    // ✅ UPDATED PART
+    function showLove(ans) {
+      lastProposalIndex = index - 1;
+
+      if (ans) {
+        content.innerHTML = `
+          <h1 class="blast-animation">Lets make every moment of our life filled with LOVE maa chellooo💖</h1>
+          <br>
+          <button class="blast-animation" style="animation-delay: 0.2s; margin-right:10px;" onclick="goToCard()">This is for you Mama 💌</button>
+          <button class="blast-animation" style="animation-delay: 0.3s;" onclick="goToProposal()">Back 💖</button>
+        `;
+      } else {
+        content.innerHTML = `
+          <h1 class="blast-animation">You don't have this option my butterson😏❤️</h1>
+          <br>
+          <button class="blast-animation" style="animation-delay: 0.2s;" onclick="goToProposal()">Back 💖</button>
+        `;
+      }
+    }
+
+    function goToCard() { index = pages.length - 1; nextPage(); }
+    function goToProposal() {
+      index = lastProposalIndex;
+      document.getElementById("btnContainer").style.display = "block";
+      nextPage();
+    }
+    function restartStory() {
+      index = 0;
+      document.getElementById("btnContainer").style.display = "block";
+      document.getElementById("backBtn").style.display = "none";
+      document.getElementById("mainBtn").innerText = "Click Me 💖";
+      nextPage();
+    }
+
+    function startMusic() {
+      const music = document.getElementById("bgMusic");
+      if (!music.paused) return;
+      music.play().catch(() => { });
+    }
+
+    function spawnHeartsOnBeat() {
+      let count = Math.floor(Math.random() * 3) + 2;
+      for (let i = 0; i < count; i++) {
+        createHeart(true);
+      }
+    }
+
+    function createHeart(fromBeat = false) {
+      let heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+
+      let size = Math.random() * 20 + 15;
+      let duration = Math.random() * 2 + 3;
+
+      if (fromBeat) {
+        size += 15 + Math.random() * 10;
+        duration -= 1.5;
+        heart.style.zIndex = "100";
+      }
+
+      heart.style.fontSize = size + "px";
+      heart.style.animationDuration = duration + "s";
+
+      hearts.appendChild(heart);
+      setTimeout(() => heart.remove(), duration * 1000);
+    }
+
+    // Background normal hearts
+    setInterval(() => createHeart(false), 500);
+
+    // Simulated beats matching average music tempo (~600ms)
+    setInterval(() => {
+      const music = document.getElementById("bgMusic");
+      if (!music.paused) {
+        spawnHeartsOnBeat();
+      }
+    }, 600);
+
+    window.onload = () => {
+      showImage(document.getElementById("image"));
+      startMusic();
+    };
+
+    document.body.addEventListener('click', () => {
+      startMusic();
+    }, { once: true });
+
+  </script>
+</body>
+
+</html>
